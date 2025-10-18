@@ -1,8 +1,8 @@
 from __future__ import annotations
-from sqlalchemy import create_engine, Text as sa_text
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy import create_engine, Text as sa_text, Connection
+from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
 
-_SQLITE_PRAGMA = 'PRAGMA foreign_keys = ON:'
+_SQLITE_PRAGMA = sa_text('PRAGMA foreign_keys = ON;')
 
 def setup_db_con(path: str, base: DeclarativeBase) -> None:
 
@@ -45,11 +45,12 @@ class DBConnSingleton:
             self.create_tables()
             self._initialized = True
 
-    def get_session(self) -> ...:
+    def get_session(self) -> Session:
         s = self._sessionmaker()
-        s.execute(sa_text(_SQLITE_PRAGMA))
+        s.execute(_SQLITE_PRAGMA)
+        return s
 
-    def get_connection(self) -> ...:
+    def get_connection(self) -> Connection:
         conn = self.engine.connect()
         conn.exec_driver_sql(_SQLITE_PRAGMA)
         return conn
