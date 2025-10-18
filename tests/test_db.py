@@ -2,8 +2,7 @@ import unittest
 
 from src.db.con_singleton import setup_db_con, DBConnSingleton
 from src.db import Base
-from src.models.tags import TagDocType, TagInfo
-from src.models.document import Document
+from src.models import Document, TagDocType, TagInfo
 
 class TestDB(unittest.TestCase):
 
