@@ -1,8 +1,9 @@
 import os
-from sqlalchemy import UniqueConstraint
-from sqlalchemy.orm import mapped_column, Mapped
+from sqlalchemy import UniqueConstraint, ForeignKey
+from sqlalchemy.orm import mapped_column, Mapped, relationship
 
 from src.db import Base
+from src.models.tags import TagDocType
 
 class Document(Base):
 
@@ -12,6 +13,10 @@ class Document(Base):
 
     filename: Mapped[str] = mapped_column()
     rel_path: Mapped[str] = mapped_column()
+
+    doc_type_id: Mapped[int] = mapped_column(ForeignKey('doctype.id'),
+                                             nullable=False)
+    doc_type: Mapped[TagDocType] = relationship()
 
     @property
     def abs_path(self) -> str:
