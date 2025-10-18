@@ -1,5 +1,5 @@
 from __future__ import annotations
-from sqlalchemy import create_engine, Text as sa_text, Connection
+from sqlalchemy import create_engine, text as sa_text, Connection
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
 
 _SQLITE_PRAGMA = sa_text('PRAGMA foreign_keys = ON;')
